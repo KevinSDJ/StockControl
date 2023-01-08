@@ -3,15 +3,16 @@ package com.stockControl.views;
 
 import com.stockControl.controller.ProductsController;
 import com.stockControl.models.Product;
+import com.stockControl.utils.ObserverUtils.Observer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-public class ProductsSection extends javax.swing.JPanel {
+public class ProductsSection extends javax.swing.JPanel implements Observer {
+   
 
     public ProductsSection() {
         initComponents();
@@ -90,10 +91,21 @@ public class ProductsSection extends javax.swing.JPanel {
             model.addRow(new Object[]{product.getCode(),product.getName(),product.getDescription(),product.getStock()});
         }
     }
+    private void refresh(){
+        id.removeAll();
+        id.repaint();
+        loadTable();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    @Override
+    public void update() {
+        refresh();
+    }
+
+    
 }

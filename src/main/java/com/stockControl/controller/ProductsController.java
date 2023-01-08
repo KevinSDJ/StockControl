@@ -35,7 +35,6 @@ public class ProductsController implements Serializable{
                 
                 result.add(item);
             }
-            
             return result;
         } catch (SQLException | RuntimeException | ClassNotFoundException ex) {
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
@@ -48,8 +47,24 @@ public class ProductsController implements Serializable{
 
     }
 
-    public static void saveOneProduct(Product product){
-
+    public static void saveOneProduct(Product product) throws ClassNotFoundException, SQLException,Exception{
+        Connection conn=null;
+        Statement st=null;
+        try {
+            conn=dbconnInst.initConnection();
+            st= conn.createStatement();
+            st.execute("INSERT INTO Products (name,description,stock)"
+                    + "VALUES ('"+product.getName()
+                    +"','"+product.getDescription()+"','"+product.getStock()+"')");
+            st.close();
+            conn.close();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex);
+        }catch(RuntimeException ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     public static void editOneProduct(Product product){

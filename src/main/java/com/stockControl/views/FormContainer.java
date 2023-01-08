@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package com.stockControl.views;
 
 import java.awt.Color;
@@ -9,12 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-/**
- *
- * @author kevinsdj
- */
-public class FormContainer extends javax.swing.JPanel {
 
+public class FormContainer extends javax.swing.JPanel{
+   
     /**
      * Creates new form FormContainer
      */
@@ -66,4 +59,5 @@ public class FormContainer extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.stockControl.components.Formp formp1;
     // End of variables declaration//GEN-END:variables
+
 }

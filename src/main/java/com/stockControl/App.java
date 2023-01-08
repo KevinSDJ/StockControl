@@ -2,6 +2,8 @@ package com.stockControl;
 
 import java.awt.Color;
 
+import com.stockControl.utils.ObserverUtils.Subject;
+
 
 public class App extends javax.swing.JFrame {
 
@@ -10,7 +12,6 @@ public class App extends javax.swing.JFrame {
         initComponents();
         setBackground(new Color(0,0,0,0));
     }
-
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -20,6 +21,7 @@ public class App extends javax.swing.JFrame {
         topBar1 = new com.stockControl.components.TopBar();
         formContainer1 = new com.stockControl.views.FormContainer();
         productsSection1 = new com.stockControl.views.ProductsSection();
+        Subject.getInstance().attach(productsSection1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1024, 550));
@@ -69,7 +71,6 @@ public class App extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public static void main(String args[]) {
-        
         java.awt.EventQueue.invokeLater(() -> {
             new App().setVisible(true);
         });
