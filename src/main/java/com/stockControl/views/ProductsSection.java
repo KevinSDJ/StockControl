@@ -1,4 +1,3 @@
-
 package com.stockControl.views;
 
 import com.stockControl.components.Alert;
@@ -6,7 +5,6 @@ import com.stockControl.controller.ProductsController;
 import com.stockControl.models.Product;
 import com.stockControl.utils.ObserverUtils.Observer;
 import com.stockControl.utils.ObserverUtils.Subject;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,8 +12,6 @@ import java.awt.RenderingHints;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
-
 import javax.swing.table.DefaultTableModel;
 
 public class ProductsSection extends javax.swing.JPanel implements Observer {
@@ -23,11 +19,11 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
 
     public ProductsSection() {
         initComponents();
-        loadTable();
         setOpaque(false);
+        setBackground(new Color(0,0,0,0));
+        loadTable();
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -170,7 +166,7 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
             e.printStackTrace();
         }
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JTable id;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton editBtn;
@@ -178,6 +174,6 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar stockOptionsTool;
-    // End of variables declaration//GEN-END:variable
+    // End of variables declaration                  
     
 }

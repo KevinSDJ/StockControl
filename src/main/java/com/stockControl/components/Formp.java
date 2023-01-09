@@ -19,7 +19,7 @@ public class Formp extends javax.swing.JPanel{
      
         private void initComponents() {
 
-                nameField = new javax.swing.JTextField();
+                nameField = new RoundedTextField();
                 jScrollPane1 = new javax.swing.JScrollPane();
                 descriptionField = new javax.swing.JTextArea();
                 jLabel1 = new javax.swing.JLabel();
@@ -29,9 +29,8 @@ public class Formp extends javax.swing.JPanel{
                 resetBtn = new javax.swing.JButton();
                 saveBtn = new javax.swing.JButton();
 
-                nameField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 3, 3, 1));
                 nameField.setPreferredSize(new java.awt.Dimension(50, 23));
-               
+                stockInp.setSize(new java.awt.Dimension(4,4));
                 descriptionField.setColumns(20);
                 descriptionField.setRows(5);
                 jScrollPane1.setViewportView(descriptionField);
