@@ -24,7 +24,6 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
         loadTable();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -35,11 +34,11 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
         editBtn = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
-        jLabel1.setFont(new java.awt.Font("Noto Sans Mono Medium", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Noto Sans Mono Medium", 1, 14));
         jLabel1.setText("Products in Store");
 
         id.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 4, 4));
-        id.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        id.setFont(new java.awt.Font("Roboto", 0, 14));
         id.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -62,7 +61,7 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
 
         stockOptionsTool.setRollover(true);
 
-        deleteBtn.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14)); // NOI18N
+        deleteBtn.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14)); 
         deleteBtn.setText("Delete");
         deleteBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 10, 4, 10));
         deleteBtn.setBorderPainted(false);
@@ -83,17 +82,33 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
         });
         stockOptionsTool.add(deleteBtn);
 
-        editBtn.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14)); // NOI18N
+        editBtn.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14)); 
         editBtn.setText("Edit");
         editBtn.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 10, 4, 10));
         editBtn.setBorderPainted(false);
         editBtn.setFocusable(false);
         editBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         editBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        /* update item event */
+        editBtn.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                if(id.getSelectedRow()<0){
+                    Alert.alertMessage(jLabel1.getParent().getParent(),"item not selected","warning",2);
+                    return;
+                }
+                String code=String.valueOf(id.getModel().getValueAt(id.getSelectedRow(), 0));
+                String name= String.valueOf(id.getModel().getValueAt(id.getSelectedRow(), 1));
+                String description=String.valueOf(id.getModel().getValueAt(id.getSelectedRow(), 2));
+                String stock=String.valueOf(id.getModel().getValueAt(id.getSelectedRow(), 3));
+                
+                updateItem(code, name, description, stock);
+            }
+        });
         
         stockOptionsTool.add(editBtn);
 
-        jButton3.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Noto Sans Mono Medium", 0, 14));
         jButton3.setText("");
         jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 10, 4, 10));
         jButton3.setBorderPainted(false);
@@ -127,7 +142,7 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
                 .addComponent(stockOptionsTool, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     @Override
     protected void paintChildren(Graphics g) {
@@ -166,14 +181,35 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
             e.printStackTrace();
         }
     }
-    // Variables declaration - do not modify                     
+    
+    private void updateItem(String code,String name, String description,String Stock){
+         try {
+            Product updateProduct= new Product();
+            if(code.isEmpty() | name.isEmpty() | description.isEmpty() |Stock.isEmpty()){
+                throw new Exception("Parameters invalid !");
+            }
+            if(Integer.parseInt(Stock)<=0){
+                throw new Exception("Stock invalid !");
+            }
+            updateProduct.setCode(code);
+            updateProduct.setName(name);
+            updateProduct.setDescription(description);
+            updateProduct.setStock(Integer.parseInt(Stock));
+            ProductsController.editOneProduct(updateProduct);
+            Alert.alertMessage(this.getParent(), "item update", "info", 1);
+            Subject.getInstance().notifyAction();
+        } catch (Exception e) {
+            Alert.alertMessage(this.getParent(), e.getMessage(), "error", 0);
+            e.printStackTrace();
+        }
+    }
+                  
     private javax.swing.JTable id;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton editBtn;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToolBar stockOptionsTool;
-    // End of variables declaration                  
+    private javax.swing.JToolBar stockOptionsTool;                
     
 }

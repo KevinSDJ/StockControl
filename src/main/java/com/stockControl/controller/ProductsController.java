@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 import com.stockControl.models.Product;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,13 +19,13 @@ public class ProductsController implements Serializable{
 
     public static List<Product> listAllProducts(){
         Connection conn=null;
-        Statement st=null;
+        PreparedStatement st=null;
         ResultSet rst=null;
         List<Product> result= new ArrayList<>();
         try {
             conn=dbconnInst.initConnection();
-            st= conn.createStatement();
-            st.execute("select * from Products");
+            st= conn.prepareStatement("select * from Products");
+            st.execute();
             rst=st.getResultSet();
             while(rst.next()){
                 Product item= new Product();
@@ -45,11 +46,12 @@ public class ProductsController implements Serializable{
 
     public static void deleteOneProduct(String code)throws ClassNotFoundException, SQLException,Exception{
         Connection conn=null;
-        Statement st=null;
+        PreparedStatement st=null;
         try{
             conn= dbconnInst.initConnection();
-            st= conn.createStatement();
-            st.execute("DELETE FROM Products WHERE code = '"+code+"'");
+            st= conn.prepareStatement("DELETE FROM Products WHERE code = ?");
+            st.setString(1,code);
+            st.execute();
             st.close();
             conn.close();
         } catch (SQLException ex ) {
@@ -63,16 +65,17 @@ public class ProductsController implements Serializable{
 
     public static void saveOneProduct(Product product) throws ClassNotFoundException, SQLException,Exception{
         Connection conn=null;
-        Statement st=null;
+        PreparedStatement st=null;
         try {
             conn=dbconnInst.initConnection();
-            st= conn.createStatement();
-            st.execute("INSERT INTO Products (name,description,stock)"
-                    + "VALUES ('"+product.getName()
-                    +"','"+product.getDescription()+"','"+product.getStock()+"')");
+            st= conn.prepareStatement("INSERT INTO Products (name,description,stock)"
+            +"VALUES ( ?,?,? )");
+            st.setString(1,product.getName());
+            st.setString(2,product.getDescription());
+            st.setInt(3, product.getStock());
+            st.execute();
             st.close();
             conn.close();
-            
         } catch (SQLException ex) {
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex);
@@ -81,8 +84,26 @@ public class ProductsController implements Serializable{
         }
     }
 
-    public static void editOneProduct(Product product){
-
+    public static void editOneProduct(Product product) throws ClassNotFoundException, SQLException,Exception{
+        Connection conn=null;
+        PreparedStatement st=null;
+        try {
+            conn=dbconnInst.initConnection();
+            st= conn.prepareStatement("UPDATE Products SET name = ?,description= ?,stock =? "
+            +"WHERE code = ?");
+            st.setString(1,product.getName());
+            st.setString(2,product.getDescription());
+            st.setInt(3, product.getStock());
+            st.setString(4,product.getCode());
+            st.execute();
+            st.close();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex);
+        }catch(RuntimeException ex){
+            throw new RuntimeException(ex);
+        }
     }
 
     public static Product findOneProduct(String code){
