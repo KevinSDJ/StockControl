@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +16,7 @@ public class ProductsController implements Serializable{
     private static final long serialVersionUID= 1L;
    
 
-    public static List<Product> listAllProducts(){
+    public static List<Product> listAllProducts() throws SQLException{
         Connection conn=null;
         PreparedStatement st=null;
         ResultSet rst=null;
@@ -36,12 +35,15 @@ public class ProductsController implements Serializable{
                 
                 result.add(item);
             }
+            st.close();
+            conn.close();
             return result;
         } catch (SQLException | RuntimeException  ex) {
+            st.close();
+            conn.close();
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }  
         return null;
-        
     }
 
     public static void deleteOneProduct(String code)throws ClassNotFoundException, SQLException,Exception{
@@ -49,15 +51,23 @@ public class ProductsController implements Serializable{
         PreparedStatement st=null;
         try{
             conn= DbMysql.getConnection();
+            conn.setAutoCommit(false);
             st= conn.prepareStatement("DELETE FROM Products WHERE code = ?");
             st.setString(1,code);
             st.execute();
             st.close();
+            conn.commit();
             conn.close();
         } catch (SQLException ex ) {
+            st.close();
+            conn.rollback();
+            conn.close();
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex);
         } catch( RuntimeException ex ){
+            st.close();
+            conn.rollback();
+            conn.close();
             throw new RuntimeException(ex);
         }
 
@@ -68,6 +78,7 @@ public class ProductsController implements Serializable{
         PreparedStatement st=null;
         try {
             conn=DbMysql.getConnection();
+            conn.setAutoCommit(false);
             st= conn.prepareStatement("INSERT INTO Products (name,description,stock)"
             +"VALUES ( ?,?,? )");
             st.setString(1,product.getName());
@@ -75,11 +86,18 @@ public class ProductsController implements Serializable{
             st.setInt(3, product.getStock());
             st.execute();
             st.close();
+            conn.commit();
             conn.close();
         } catch (SQLException ex) {
+            st.close();
+            conn.rollback();
+            conn.close();
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex);
         }catch(RuntimeException ex){
+            st.close();
+            conn.rollback();
+            conn.close();
             throw new RuntimeException(ex);
         }
     }
@@ -89,6 +107,7 @@ public class ProductsController implements Serializable{
         PreparedStatement st=null;
         try {
             conn=DbMysql.getConnection();
+            conn.setAutoCommit(false);
             st= conn.prepareStatement("UPDATE Products SET name = ?,description= ?,stock =? "
             +"WHERE code = ?");
             st.setString(1,product.getName());
@@ -97,11 +116,18 @@ public class ProductsController implements Serializable{
             st.setString(4,product.getCode());
             st.execute();
             st.close();
+            conn.commit();
             conn.close();
         } catch (SQLException ex) {
+            st.close();
+            conn.rollback();
+            conn.close();
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
             throw new SQLException(ex);
         }catch(RuntimeException ex){
+            st.close();
+            conn.rollback();
+            conn.close();
             throw new RuntimeException(ex);
         }
     }
