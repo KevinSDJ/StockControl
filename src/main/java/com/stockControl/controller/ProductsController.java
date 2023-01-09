@@ -43,7 +43,21 @@ public class ProductsController implements Serializable{
         
     }
 
-    public static void deleteOneProduct(String code){
+    public static void deleteOneProduct(String code)throws ClassNotFoundException, SQLException,Exception{
+        Connection conn=null;
+        Statement st=null;
+        try{
+            conn= dbconnInst.initConnection();
+            st= conn.createStatement();
+            st.execute("DELETE FROM Products WHERE code = '"+code+"'");
+            st.close();
+            conn.close();
+        } catch (SQLException ex ) {
+            Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
+            throw new SQLException(ex);
+        } catch( RuntimeException ex ){
+            throw new RuntimeException(ex);
+        }
 
     }
 
