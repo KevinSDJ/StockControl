@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class ProductsController implements Serializable{
     private static final long serialVersionUID= 1L;
-    private static DbMysql dbconnInst= new DbMysql();
+   
 
     public static List<Product> listAllProducts(){
         Connection conn=null;
@@ -23,7 +23,7 @@ public class ProductsController implements Serializable{
         ResultSet rst=null;
         List<Product> result= new ArrayList<>();
         try {
-            conn=dbconnInst.initConnection();
+            conn=DbMysql.getConnection();
             st= conn.prepareStatement("select * from Products");
             st.execute();
             rst=st.getResultSet();
@@ -37,7 +37,7 @@ public class ProductsController implements Serializable{
                 result.add(item);
             }
             return result;
-        } catch (SQLException | RuntimeException | ClassNotFoundException ex) {
+        } catch (SQLException | RuntimeException  ex) {
             Logger.getLogger(ProductsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -48,7 +48,7 @@ public class ProductsController implements Serializable{
         Connection conn=null;
         PreparedStatement st=null;
         try{
-            conn= dbconnInst.initConnection();
+            conn= DbMysql.getConnection();
             st= conn.prepareStatement("DELETE FROM Products WHERE code = ?");
             st.setString(1,code);
             st.execute();
@@ -67,7 +67,7 @@ public class ProductsController implements Serializable{
         Connection conn=null;
         PreparedStatement st=null;
         try {
-            conn=dbconnInst.initConnection();
+            conn=DbMysql.getConnection();
             st= conn.prepareStatement("INSERT INTO Products (name,description,stock)"
             +"VALUES ( ?,?,? )");
             st.setString(1,product.getName());
@@ -88,7 +88,7 @@ public class ProductsController implements Serializable{
         Connection conn=null;
         PreparedStatement st=null;
         try {
-            conn=dbconnInst.initConnection();
+            conn=DbMysql.getConnection();
             st= conn.prepareStatement("UPDATE Products SET name = ?,description= ?,stock =? "
             +"WHERE code = ?");
             st.setString(1,product.getName());
