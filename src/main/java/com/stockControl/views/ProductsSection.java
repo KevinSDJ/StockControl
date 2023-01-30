@@ -12,6 +12,9 @@ import java.awt.RenderingHints;
 import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class ProductsSection extends javax.swing.JPanel implements Observer {
@@ -153,7 +156,13 @@ public class ProductsSection extends javax.swing.JPanel implements Observer {
         super.paintChildren(g); 
     }
     private void loadTable(){
-        List<Product> products = ProductsController.listAllProducts();
+        List<Product> products=null;
+        try {
+            products = ProductsController.listAllProducts();
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductsSection.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
         DefaultTableModel model= (DefaultTableModel) id.getModel();
         for(Product product:products){
             model.addRow(new Object[]{product.getCode(),product.getName(),product.getDescription(),product.getStock()});

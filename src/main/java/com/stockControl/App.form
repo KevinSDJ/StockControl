@@ -49,16 +49,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <Component id="formContainer1" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="608" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="612" max="-2" attributes="0"/>
                           <Component id="topBar1" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Component id="productsSection1" min="-2" pref="706" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <Component id="productsSection1" min="-2" pref="699" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -69,18 +70,18 @@
               <Group type="102" attributes="0">
                   <Component id="topBar1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                  <Component id="productsSection1" pref="0" max="32767" attributes="0"/>
+                  <Component id="productsSection1" max="32767" attributes="0"/>
               </Group>
-              <Component id="formContainer1" pref="550" max="32767" attributes="0"/>
+              <Component id="formContainer1" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
         <Component class="com.stockControl.components.TopBar" name="topBar1">
         </Component>
-        <Component class="com.stockControl.views.FormContainer" name="formContainer1">
-        </Component>
         <Component class="com.stockControl.views.ProductsSection" name="productsSection1">
+        </Component>
+        <Component class="com.stockControl.views.FormContainer" name="formContainer1">
         </Component>
       </SubComponents>
     </Container>
